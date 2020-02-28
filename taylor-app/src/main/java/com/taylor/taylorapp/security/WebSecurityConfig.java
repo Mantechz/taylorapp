@@ -1,6 +1,7 @@
 package com.taylor.taylorapp.security;
 
 
+import com.taylor.taylorapp.model.OrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http
             .authorizeRequests()
-                .antMatchers("/","/static/**", "/styles/**", "/js/**", "/navbar","/plugins/**", "/resources/**", "/bootstrap-4.1.2/**", "/layouts/**", "/success", "/category", "/images/**", "/update-profile","/registration", "/console/**","/actuator").permitAll()
+                .antMatchers("/","/static/**", "/styles/**", "/js/**", "/navbar","/plugins/**", "/resources/**", "/bootstrap-4.1.2/**", "/layouts/**", "/success", "/category", "/images/**", "/update-profile","/registration", "/login-data/", "/console/**","/actuator").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -89,6 +90,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public OrderDAO order() {
     	OrderDAO modelorder = new OrderDAO();
        return modelorder;
+    }
+    @Bean
+    public OrderInfo orderInfo() {
+        OrderInfo orderinfo = new OrderInfo();
+        return orderinfo;
     }
     @Bean
     public FabricDAO fabric() {

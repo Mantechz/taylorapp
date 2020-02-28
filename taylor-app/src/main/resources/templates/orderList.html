@@ -182,7 +182,7 @@
             <th>Amount</th>
             <th>View</th>
          </tr>
-         <tr th:each="orderInfo : ${paginationResult.list}">
+         <tr th:each="orderInfo : ${paginationresultcount}">
             <td th:utext="${orderInfo.orderNum}"></td>
             <td th:utext="${#dates.format(orderInfo.orderDate,'dd-MM-yyyy HH:mm')}"></td>
             <td th:utext="${orderInfo.customerName}"></td>
@@ -193,8 +193,8 @@
             <td><a th:href="@{|/admin/order?orderId=${orderInfo.id}|}">View</a></td>
          </tr>
       </table>
-      <div class="page-navigator" th:if="${paginationResult.totalPages > 1}" >
-         <th:block th:each="page: ${paginationResult.navigationPages}">
+      <div class="page-navigator" th:if="${paginationResulttotalPages > 1}" >
+         <th:block th:each="page: ${paginationResultnavigationPages}">
             <a th:if="${page != -1}" class="nav-item"
                th:href="@{|/admin/orderList?page=${page}|}" th:utext="${page}"></a>
                 

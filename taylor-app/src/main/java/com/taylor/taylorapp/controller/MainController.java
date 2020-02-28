@@ -7,6 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.taylor.taylorapp.entities.Order;
+import com.taylor.taylorapp.model.*;
+import com.taylor.taylorapp.repository.OrderInfoRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +42,6 @@ import com.taylor.taylorapp.dao.ProductDAO;
 import com.taylor.taylorapp.entities.Fabrics;
 import com.taylor.taylorapp.entities.Product;
 import com.taylor.taylorapp.form.CustomerForm;
-import com.taylor.taylorapp.model.CartInfo;
-import com.taylor.taylorapp.model.CartLineInfo;
-import com.taylor.taylorapp.model.CustomerInfo;
-import com.taylor.taylorapp.model.FabricsInfo;
-import com.taylor.taylorapp.model.ProductInfo;
-import com.taylor.taylorapp.model.StorePFInfo;
 import com.taylor.taylorapp.pagination.ProductDAORepo;
 import com.taylor.taylorapp.repository.FabricDAORepo;
 import com.taylor.taylorapp.utils.Utils;
@@ -73,7 +70,12 @@ public class MainController<E> {
    private CustomerFormValidator customerFormValidator;
    @Autowired
    private StorePFInfo storeservice;
- 
+    @Autowired
+    private OrderInfo orderInfo;
+    @Autowired
+    private OrderInfoRepo orderInfoRepo;
+
+
    @InitBinder
    public void myInitBinder(WebDataBinder dataBinder) {
       Object target = dataBinder.getTarget();
@@ -106,8 +108,34 @@ public class MainController<E> {
       return "index";
    }
     @RequestMapping("/admin/orderlist")
-    public String orderlist() {
-        return "orderList";
+    public String orderlist(Model model, //
+                            @PageableDefault(page = 0, size = 20)
+                            @SortDefaults({
+                                    @SortDefault(sort = "name", direction = Sort.Direction.DESC),
+                                    @SortDefault(sort = "code", direction = Sort.Direction.ASC)
+                            })
+                                    Pageable pageable) {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String logname = loggedInUser.getName();
+        model.addAttribute("username", logname);
+
+
+        Page<Order> result = orderInfoRepo.findAll(pageable);
+        if(result == null){
+            return "/403";
+        }
+        else {
+
+
+        }
+        model.addAttribute("paginationresultcount", orderInfo.getOrderNum());
+        model.addAttribute("paginationResult", result.getContent());
+        model.addAttribute("paginationResulttotalPages", result);
+        model.addAttribute("paginationResultnavigationPages", result.getNumber());
+
+
+
+       return "orderList";
     }
  
    // Product List
@@ -126,8 +154,8 @@ public class MainController<E> {
 		
 	   Page<Product> result = productDAOrepo.findAll(pageable);
     		/* queryProducts(page, 
-            maxResult, maxNavigationPage, likeName); */  	
-  	
+            maxResult, maxNavigationPage, likeName); */
+
       model.addAttribute("paginationProducts", result.getContent());  
       model.addAttribute("paginationProductsres", result); 
       model.addAttribute("paginationProductsnav", result.getNumber()); 
@@ -148,8 +176,8 @@ public class MainController<E> {
 		String logname = loggedInUser.getName();
 		model.addAttribute("username", logname);
 		
-	   Page<Fabrics> result = fabricDAOrepo.findAll(pageable); 	
-  	
+	   Page<Fabrics> result = fabricDAOrepo.findAll(pageable);
+
       model.addAttribute("paginationProducts", result.getContent());
       model.addAttribute("paginationProductsres", result); 
       model.addAttribute("paginationProductsnav", result.getNumber()); 
