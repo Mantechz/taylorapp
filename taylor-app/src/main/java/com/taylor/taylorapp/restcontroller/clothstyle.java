@@ -16,18 +16,31 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping(value = "/contacts/")
 public class clothstyle {
-    Userfetch userrepo;
+    @Autowired
+    private Userfetch userrepo;
 
     @RequestMapping("/login-data/{name}")
     public ResponseEntity login(@PathVariable() String name) {
         System.out.println(name);
 
         Iterable<User> all = userrepo.findAll();
+        User use = userrepo.findByUsername(name);
 
         System.out.println(all);
-        return ResponseEntity.ok().body(all);
+        return ResponseEntity.ok().body(use);
 
     }
+    @RequestMapping("/login-dataa/{name}")
+    public User loginte(@PathVariable() String name) {
+        System.out.println(name);
 
+        Iterable<User> all = userrepo.findAll();
+        User use = userrepo.findByUsername(name);
+
+        System.out.println(all);
+        return use;
+
+    }
 }

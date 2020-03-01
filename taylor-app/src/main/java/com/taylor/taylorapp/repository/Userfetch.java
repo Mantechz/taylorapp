@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import com.taylor.taylorapp.entities.User;
 
 
-@Repository("userfetch")
+@Repository("Userfetch")
 public interface Userfetch extends CrudRepository<User, Long> {
-    User findByUsername(String username);
+    User findByUsername(String name);
+
 
 
 

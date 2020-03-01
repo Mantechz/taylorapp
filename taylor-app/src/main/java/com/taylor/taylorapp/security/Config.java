@@ -3,6 +3,7 @@ package com.taylor.taylorapp.security;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import com.auth0.spring.security.api.JwtWebSecurityConfigurer;
 
 import org.h2.server.web.WebServlet;
 import org.hibernate.SessionFactory;
@@ -15,9 +16,17 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class Config {
+@EnableWebSecurity
+public class Config  {
+
 
 	@Bean
 	public PasswordEncoder passwordEncode() {
