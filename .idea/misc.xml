@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/taylor-app/target/maven-archiver/pom.properties" />
         <option value="$PROJECT_DIR$/taylor-app/pom.xml" />
+        <option value="$PROJECT_DIR$/ladiesconnect/pom.xml" />
       </list>
     </option>
   </component>
